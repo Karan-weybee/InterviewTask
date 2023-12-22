@@ -1,0 +1,13 @@
+.nav-link{
+    color: black;
+}
+.nav-item{
+    padding-left: 2em;
+}
+.del-btn{
+  background-color: red;
+  color: white;
+}
+.edit-btn{
+    background-color: aquamarine;
+}
