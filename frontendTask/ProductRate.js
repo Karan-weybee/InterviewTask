@@ -79,10 +79,8 @@ function createProductRate(){
     "Content-type": "application/json; charset=UTF-8"
   }
 })
-  .then((response) => response.json())
-  .then((json) => console.log(json));
-console.log("created")
-  location.reload();
+  .then((response) => location.reload());
+  console.log("Assigned")
 }
 
 function closeModel(){

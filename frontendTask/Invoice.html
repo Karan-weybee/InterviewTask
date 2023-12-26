@@ -10,9 +10,7 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script defer type="text/javascript" src="Invoice.js"></script>
 <style>
-    .fade:not(.show){
-        opacity: 1;
-    }
+   
     .modal-header{
         margin-top: 30px;
     }
@@ -20,9 +18,22 @@
       margin:0 10px 10px 10px;
     }
     #model-content{
+      margin-left: -138px;
+      width:152%;
         padding-top: 40px;
+        top: 10px;
+    }
+    .add{
+      margin: 10px 10px 20px 10px;
+      background-color: rgb(231, 163, 80);
+    }
+    .addInModel{
+      margin: 0px 10px 20px 10px;
+      background-color: rgb(231, 163, 80);
     }
 </style>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+  
 </head>
 <body>
     <div class="container">
@@ -49,55 +60,32 @@
               <li class="nav-item">
                 <a class="nav-link Active" href="#">Invoice</a>
               </li>
-             
             </ul>
           </div>
+            <form class="d-flex" id="logout">
+              <!-- <a class="nav-link  btn-outline-success" href="#" id="logout">Logout</a> -->
+              <button class="btn btn-outline-danger" type="submit">Logout</button>
+            </form>
+          
         </div>
       </nav>
 
-      <div class="create" style="border: 1px solid black; padding: 5px 5px 10px 5px ;">
-        <h4>Invoice</h4>
-
-     <p>
-        <select class="form-select" aria-label="Default select example" id="selectParty" style="width: 20vw; margin-left: 10px;" onchange="fillProductData('selectParty','selectProduct')">
-            <option selected>select party</option>
-        </select>
-        <br>
-        <br>
-        <select class="form-select" aria-label="Default select example" id="selectProduct" style="width: 20vw; margin-left: 10px;" onchange="fillRate('selectProduct','rate')">
-            <option selected>select product</option>
-        </select>
-        <br>
-        <br>
-        <lable style="width: 10vw; margin-left: 10px;">Rate :- </lable>
-        <input type="number" placeholder="rate" style="width: 10vw; margin-left: 10px;" id="rate" min="0"/>
-
-        <lable style="width: 10vw; margin-left: 10px;">Quantity :- </lable>
-        <input type="number" placeholder="Quantity" style="width: 10vw; margin-left: 10px;" id="quantity" min="0"/>
-
-        <lable style="width: 10vw; margin-left: 10px;">DateTime :- </lable>
-        <input type="date" id="date" style="width: 10vw; margin-left: 10px;">
-        <button style="width: 10vw; margin-left: 10px;" onclick="createInvoice()">Create</button>
-    </p>
-    </div>
-      <br>
+      <button type="button" class="btn add" onclick="create()">Add Invoice</button>
+      
       <div class="AssignList">
-      <table class="table table-primary table-striped-columns">
+      <table class="table table-primary table-striped-columns" id="bodyList">
         <thead>
           <tr>
             <th scope="col">Id</th>
             <th scope="col">Party Name</th>
-            <th scope="col">Product Name</th>
-            <th scope="col">Date</th>
-            <th scope="col">Rate Of Product</th>
-            <th scope="col">Quantity</th>
             <th scope="col">Total</th>
             <th scope="col">Edit</th>
+            <th scope="col">Details</th>
           </tr>
         </thead>
-        <tbody id="bodyList">
+        <!-- <tbody>
         
-        </tbody>
+        </tbody> -->
       </table>
     </div>
     
@@ -106,7 +94,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" id="model-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="People-name">Edit Invoice</h3>
+                <span class="modal-title" id="partyName">Edit</span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" onclick="closeModel()">×</span>
                 </button>
@@ -116,29 +104,24 @@
                     <img id="image-data" src="" />
                 </div>
                 <div class="detail">
-                    <ul>
-                        <select class="form-select" aria-label="Default select example" id="selectParty2" style="width: 20vw; margin-left: 10px;" onchange="fillProductData('selectParty2','selectProduct2')">
-                            <option selected>select party</option>
-                        </select>
-                        <br>
-                        <br>
-                        <select class="form-select" aria-label="Default select example" id="selectProduct2" style="width: 20vw; margin-left: 10px;" onchange="fillRate('selectProduct2','rate2')">
-                            <option selected>select product</option>
-                        </select>
-                        <br>
-                        <br>
-                        <lable style="width: 10vw; margin-left: 10px;">Rate :- </lable>
-                        <input type="number" placeholder="rate" style="width: 10vw; margin-left: 10px;" id="rate2" min="0"/>
-                
-                        <lable style="width: 10vw; margin-left: 10px;">Quantity :- </lable>
-                        <input type="number" placeholder="Quantity" style="width: 10vw; margin-left: 10px;" id="quantity2" min="0"/>
-                
-                        <lable style="width: 10vw; margin-left: 10px;">DateTime :- </lable>
-                        <input type="date" id="date2" style="width: 10vw; margin-left: 10px;">
-                        <br>
-                        <br>
-                    <button style="width: 10vw; margin-left: 10px;" onclick="editFromModel()">Edit</button>
-                    </ul>
+                  <button type="button" class="btn addInModel" onclick="create()">Add Invoice</button>
+                  <table class="table table-primary table-striped-columns pre-scrollable">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Rate Of Product</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ProductList">
+                    
+                    </tbody>
+                  </table>
                 </div>
             </div>
         </div>
@@ -155,6 +138,41 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
    
-
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+<script>
+  $(document).ready(function(){
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.open("GET","https://localhost:44357/api/invoices",true);
+    xmlhttp.onreadystatechange=function(){
+      if(xmlhttp.readyState==4 && xmlhttp.status==200){
+        var persons=JSON.parse(xmlhttp.responseText);
+        $("#bodyList").DataTable({
+          data:persons,
+         
+          "columns":[
+            {"data":"id"},
+            {"data":"partyName"},
+            {"data":"total"},
+            {"title":"Edit",
+            render: function (data, type, full) {
+                return `<td>
+                <button id="${full.id}" class="edit-btn" onclick="edit(this.id)">Edit</button>
+            </td>`}
+          },
+          {"title":"Details",
+          render: function (data, type, full) {
+                return `
+            <td><button id="${full.id}" onclick="view(this.id)">View</button>
+                </td>`}
+        }
+          ],
+        
+        });
+      }
+     
+    }
+    xmlhttp.send();
+  })
+</script>
 </body>
 </html>

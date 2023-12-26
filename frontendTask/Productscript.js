@@ -30,9 +30,8 @@ function deleteproduct(id){
       headers: {
         "Content-type": "application/json; charset=UTF-8"
       }
-    })
+    }).then(res=>location.reload())
      
-    location.reload();
 }
 
 function createproduct(){
@@ -48,10 +47,7 @@ function createproduct(){
     "Content-type": "application/json; charset=UTF-8"
   }
 })
-  .then((response) => response.json())
-  .then((json) => console.log(json));
-
-  location.reload();
+  .then((response) => location.reload());
 }
 
 function closeModel(){

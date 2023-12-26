@@ -30,9 +30,8 @@ function deleteParty(id){
       headers: {
         "Content-type": "application/json; charset=UTF-8"
       }
-    })
-     
-    location.reload();
+    }).then(res=>location.reload())
+ 
 }
 
 function createParty(){
@@ -48,10 +47,8 @@ function createParty(){
     "Content-type": "application/json; charset=UTF-8"
   }
 })
-  .then((response) => response.json())
-  .then((json) => console.log(json));
+  .then((response) =>  location.reload());
 
-  location.reload();
 }
 
 function closeModel(){
